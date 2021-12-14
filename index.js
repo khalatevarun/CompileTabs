@@ -16,6 +16,7 @@ const deleteBtn = document.getElementById('delete-btn');
 const tabBtn = document.getElementById('tab-btn');
 const newBtn = document.getElementById('new-btn');
 const currentEl = document.getElementById('current-el');
+const groupnameEl = document.getElementById('groupname-el');
 
 currentEl.innerHTML = myTabs[currentGroup].name;
 
@@ -51,8 +52,17 @@ newBtn.addEventListener('click', function () {
   myTabs.push({ name: inputEl.value, links: [] });
   currentGroup = myTabs.length - 1;
   currentEl.innerText = inputEl.value;
+  inputEl.value = '';
   localStorage.setItem('myTabs', JSON.stringify(myTabs));
   render(myTabs);
+});
+
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.id == 'groupname-el') {
+    //do something
+    currentEl.innerText = e.target.innerText;
+    currentGroup = myTabs.findIndex((tabs) => tabs.name == e.target.innerText);
+  }
 });
 
 function render(groups) {
@@ -60,7 +70,7 @@ function render(groups) {
 
   for (let i = 0; i < groups.length; i++) {
     console.log(groups);
-    listItems += `<h3>${groups[i].name}</h3><ul id="ul-el">`;
+    listItems += `<h3 id="groupname-el">${groups[i].name}</h3><ul id="ul-el">`;
     for (let j = 0; j < groups[i].links?.length; j++) {
       listItems += `
       <li>
