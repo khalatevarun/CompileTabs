@@ -14,6 +14,7 @@ const contentEl = document.getElementById('content-el');
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem('myTabs'));
 const deleteBtn = document.getElementById('delete-btn');
 const tabBtn = document.getElementById('tab-btn');
+const newBtn = document.getElementById('new-btn');
 const currentEl = document.getElementById('current-el');
 
 currentEl.innerHTML = myTabs[currentGroup].name;
@@ -40,8 +41,16 @@ tabBtn.addEventListener('click', function () {
 render(myTabs);
 
 inputBtn.addEventListener('click', function () {
-  myTabs.push(inputEl.value);
+  myTabs[currentGroup].links.push(inputEl.value);
   inputEl.value = '';
+  localStorage.setItem('myTabs', JSON.stringify(myTabs));
+  render(myTabs);
+});
+
+newBtn.addEventListener('click', function () {
+  myTabs.push({ name: inputEl.value, links: [] });
+  currentGroup = myTabs.length - 1;
+  currentEl.innerText = inputEl.value;
   localStorage.setItem('myTabs', JSON.stringify(myTabs));
   render(myTabs);
 });
@@ -52,7 +61,7 @@ function render(groups) {
   for (let i = 0; i < groups.length; i++) {
     console.log(groups);
     listItems += `<h3>${groups[i].name}</h3><ul id="ul-el">`;
-    for (let j = 0; j < groups[i].links.length; j++) {
+    for (let j = 0; j < groups[i].links?.length; j++) {
       listItems += `
       <li>
           <a target='_blank' href='${groups[i].links[j]}'>
