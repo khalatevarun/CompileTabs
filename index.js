@@ -55,10 +55,17 @@ render(myTabs);
 
 inputBtn.addEventListener('click', function () {
   if (is_url(inputEl.value)) {
-    myTabs[currentGroup].links.push(inputEl.value);
-    inputEl.value = '';
-    localStorage.setItem('myTabs', JSON.stringify(myTabs));
-    render(myTabs);
+    if (
+      myTabs[currentGroup].links.findIndex((link) => link == inputEl.value) ==
+      -1
+    ) {
+      myTabs[currentGroup].links.push(inputEl.value);
+      inputEl.value = '';
+      localStorage.setItem('myTabs', JSON.stringify(myTabs));
+      render(myTabs);
+    } else {
+      //display error saying that the link already exists in the current group
+    }
   } else {
     //display error saying that the url is not valid.
   }
@@ -107,19 +114,24 @@ currentEl.addEventListener('click', function editData(e) {
 });
 
 document.addEventListener('click', function (e) {
+  console.log('EVENT>>>', e.target);
   if (e.target && e.target.id == 'groupname-el') {
     //do something
     currentEl.innerText = e.target.innerText;
     currentGroup = myTabs.findIndex((tabs) => tabs.name == e.target.innerText);
-  }
-
-  if (e.target && e.target.id == 'copy-img') {
+    render(myTabs);
+  } else if (e.target && e.target.id == 'copy-img') {
     let title = myTabs[currentGroup].name;
     let links = '';
     for (let i = 0; i < myTabs[currentGroup].links.length; i++) {
       links += `${i + 1}) ` + myTabs[currentGroup].links[i] + '\n\n';
     }
     navigator.clipboard.writeText(title + '\n\n' + links);
+  } else if (e.target && e.target.id == 'remove-el') {
+    myTabs = myTabs[currentGroup].links.filter(
+      (link) => link == 'add a condition'
+    );
+    // call render method
   }
 });
 
@@ -142,7 +154,9 @@ function render(groups) {
       <li id="link-el">
           <a target='_blank' href='${groups[i].links[j]}'>
               ${groups[i].links[j]}
-          </a>
+          </a>${
+            i == currentGroup ? "<img src='remove.png' id='remove-el'/>" : ''
+          }
       </li>
   `;
     }

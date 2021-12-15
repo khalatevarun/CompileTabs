@@ -40,6 +40,11 @@ button {
   height: 24px;
   margin-right: 30px;
 }
+#remove-el {
+  height: 16px;
+  cursor: pointer;
+  margin-left: 20px;
+}
 
 #heading-el {
   display: flex;
