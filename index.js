@@ -12,7 +12,7 @@ const inputEl = document.getElementById('input-el');
 const inputBtn = document.getElementById('input-btn');
 const contentEl = document.getElementById('content-el');
 const leadsFromLocalStorage = JSON.parse(localStorage.getItem('myTabs'));
-const deleteBtn = document.getElementById('delete-btn');
+const deleteEl = document.getElementById('delete-img');
 const tabBtn = document.getElementById('tab-btn');
 const newBtn = document.getElementById('new-btn');
 let currentEl = document.getElementById('current-el');
@@ -33,11 +33,15 @@ tabBtn.addEventListener('click', function () {
   });
 });
 
-// deleteBtn.addEventListener('dblclick', function () {
-//   localStorage.clear();
-//   myTabs = [];
-//   render(myTabs);
-// });
+deleteEl.addEventListener('dblclick', function () {
+  let updatedTabs = myTabs.filter(
+    (tab) => tab.name != myTabs[currentGroup].name
+  );
+  currentGroup = 0;
+  currentEl.innerHTML = updatedTabs[currentGroup].name;
+  localStorage.setItem('myTabs', JSON.stringify(updatedTabs));
+  render(updatedTabs);
+});
 
 render(myTabs);
 
@@ -72,6 +76,7 @@ currentEl.addEventListener('click', function editData(e) {
 
     currentEl = previous;
     myTabs[currentGroup].name = input.value;
+    localStorage.setItem('myTabs', JSON.stringify(myTabs));
     render(myTabs);
   };
 
@@ -103,7 +108,7 @@ function render(groups) {
 
   for (let i = 0; i < groups.length; i++) {
     console.log(groups);
-    listItems += `<h3 id="groupname-el">${groups[i].name}</h3><img  src="copy.png" id="copy-img"/><ul id="ul-el">`;
+    listItems += `<h3 id="groupname-el">${groups[i].name}</h3><ul id="ul-el">`;
     for (let j = 0; j < groups[i].links?.length; j++) {
       listItems += `
       <li id="link-el">

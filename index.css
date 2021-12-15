@@ -19,6 +19,7 @@ button {
   padding: 10px 20px;
   border: 1px solid #5f9341;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .action-btns {
@@ -33,7 +34,17 @@ button {
 }
 
 #delete-img {
-  height: 30px;
+  height: 24px;
+}
+#copy-img {
+  height: 24px;
+  margin-right: 30px;
+}
+
+#heading-el {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 ul {
