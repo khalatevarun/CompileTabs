@@ -14,11 +14,7 @@
         "default_icon": "icon.png"
     },
     "permissions":[
-        "contextMenus",
         "tabs"
-    ],
-    "background":{
-        "service_worker":"customEvent.js"
-    }
+    ]
     
 }

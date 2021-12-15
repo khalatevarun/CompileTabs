@@ -53,12 +53,20 @@ inputBtn.addEventListener('click', function () {
 });
 
 newBtn.addEventListener('click', function () {
-  myTabs.push({ name: inputEl.value, links: [] });
-  currentGroup = myTabs.length - 1;
-  currentEl.innerText = inputEl.value;
-  inputEl.value = '';
-  localStorage.setItem('myTabs', JSON.stringify(myTabs));
-  render(myTabs);
+  if (
+    myTabs.findIndex(
+      (tabs) => tabs.name.toLowerCase() == inputEl.value.toLowerCase()
+    ) == -1
+  ) {
+    myTabs.push({ name: inputEl.value, links: [] });
+    currentGroup = myTabs.length - 1;
+    currentEl.innerText = inputEl.value;
+    inputEl.value = '';
+    localStorage.setItem('myTabs', JSON.stringify(myTabs));
+    render(myTabs);
+  } else {
+    // display error that this name already exists
+  }
 });
 
 currentEl.addEventListener('click', function editData(e) {
