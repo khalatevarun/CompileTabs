@@ -15,7 +15,7 @@ const leadsFromLocalStorage = JSON.parse(localStorage.getItem('myTabs'));
 const deleteBtn = document.getElementById('delete-btn');
 const tabBtn = document.getElementById('tab-btn');
 const newBtn = document.getElementById('new-btn');
-const currentEl = document.getElementById('current-el');
+let currentEl = document.getElementById('current-el');
 const groupnameEl = document.getElementById('groupname-el');
 
 currentEl.innerHTML = myTabs[currentGroup].name;
@@ -55,6 +55,30 @@ newBtn.addEventListener('click', function () {
   inputEl.value = '';
   localStorage.setItem('myTabs', JSON.stringify(myTabs));
   render(myTabs);
+});
+
+currentEl.addEventListener('click', function editData(e) {
+  const el = e.target;
+  const input = document.createElement('input');
+  input.setAttribute('value', el.textContent);
+  el.replaceWith(input);
+
+  const save = function () {
+    const previous = document.createElement(el.tagName.toLowerCase());
+    previous.setAttribute('id', 'current-el');
+    previous.onclick = editData;
+    previous.textContent = input.value;
+    input.replaceWith(previous);
+
+    currentEl = previous;
+    myTabs[currentGroup].name = input.value;
+    render(myTabs);
+  };
+
+  input.addEventListener('blur', save, {
+    once: true,
+  });
+  input.focus();
 });
 
 document.addEventListener('click', function (e) {
