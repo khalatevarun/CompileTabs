@@ -87,6 +87,15 @@ document.addEventListener('click', function (e) {
     currentEl.innerText = e.target.innerText;
     currentGroup = myTabs.findIndex((tabs) => tabs.name == e.target.innerText);
   }
+
+  if (e.target && e.target.id == 'copy-img') {
+    let title = myTabs[currentGroup].name;
+    let links = '';
+    for (let i = 0; i < myTabs[currentGroup].links.length; i++) {
+      links += `${i + 1}) ` + myTabs[currentGroup].links[i] + '\n\n';
+    }
+    navigator.clipboard.writeText(title + '\n\n' + links);
+  }
 });
 
 function render(groups) {
@@ -94,10 +103,10 @@ function render(groups) {
 
   for (let i = 0; i < groups.length; i++) {
     console.log(groups);
-    listItems += `<h3 id="groupname-el">${groups[i].name}</h3><ul id="ul-el">`;
+    listItems += `<h3 id="groupname-el">${groups[i].name}</h3><img  src="copy.png" id="copy-img"/><ul id="ul-el">`;
     for (let j = 0; j < groups[i].links?.length; j++) {
       listItems += `
-      <li>
+      <li id="link-el">
           <a target='_blank' href='${groups[i].links[j]}'>
               ${groups[i].links[j]}
           </a>
