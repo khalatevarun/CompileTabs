@@ -127,10 +127,11 @@ document.addEventListener('click', function (e) {
       links += `${i + 1}) ` + myTabs[currentGroup].links[i] + '\n\n';
     }
     navigator.clipboard.writeText(title + '\n\n' + links);
-  } else if (e.target && e.target.id == 'remove-el') {
-    myTabs = myTabs[currentGroup].links.filter(
-      (link) => link == 'add a condition'
-    );
+  } else if (e.target && e.target.id == 'link-el') {
+    console.log(e.target.getElementsByTagName('a')[0].innerHTML);
+    // myTabs = myTabs[currentGroup].links.filter(
+    //   (link) => link == e.target.getElementsByTagName('a').value
+    // );
     // call render method
   }
 });
